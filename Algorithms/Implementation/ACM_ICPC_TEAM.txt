@@ -1,0 +1,103 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class Result {
+
+    /*
+     * Complete the 'acmTeam' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts STRING_ARRAY topic as parameter.
+     */
+
+    public static List<Integer> acmTeam(List<String> topic) {
+    // Write your code here
+        
+        ArrayList<ArrayList<Integer>> al=new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> frequency=new ArrayList<>();
+        ArrayList<Integer> result=new ArrayList<>();
+        int n=topic.size();
+        int A[][]=new int[n][2];
+        for(int i=0; i<n; i++)
+        {
+            for(int j=i+1; j<n; j++)
+            {
+                ArrayList<Integer> al1=new ArrayList<>();
+                al1.add(i);
+                al1.add(j);
+                al.add(al1);
+            }
+        }
+        for(int i=0; i<al.size(); i++)
+        {
+                //System.out.print(al.get(i).get(0)+" "+al.get(0).get(1));
+                int m1=al.get(i).get(0);
+                int m2=al.get(i).get(1);
+                String s1=topic.get(m1);
+                String s2=topic.get(m2);
+                System.out.println(s1+" "+s2);
+            
+                System.out.println();
+                int r=0;
+                for(int j=0; j<s1.length(); j++)
+                {
+                    if(s1.charAt(j)=='1' || s2.charAt(j)=='1')
+                    {
+                        r++;
+                    }
+                }
+                frequency.add(r);   
+        }
+        
+        //System.out.println(frequency);
+        //System.out.println(al);
+        int maximum=Collections.max(frequency);
+        result.add(maximum);
+        int fq=Collections.frequency(frequency,maximum);
+        result.add(fq);
+        //System.out.println(topic);
+        //System.out.println(topic.size());
+        return result;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int m = Integer.parseInt(firstMultipleInput[1]);
+
+        List<String> topic = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            String topicItem = bufferedReader.readLine();
+            topic.add(topicItem);
+        }
+
+        List<Integer> result = Result.acmTeam(topic);
+
+        for (int i = 0; i < result.size(); i++) {
+            bufferedWriter.write(String.valueOf(result.get(i)));
+
+            if (i != result.size() - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
